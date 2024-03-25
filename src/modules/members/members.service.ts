@@ -16,20 +16,34 @@ export class MembersService {
     }
 
     async findAll(): Promise<MemberResponse[]> {
-        const collection = db.collection('members');
-        const { results } = await collection.list();
+        // const collection = db.collection('members');
+        // const { results } = await collection.list();
 
-        const members = await Promise.all(
-            results.map(async ({ key }) => {
-                const memberProps = (await collection.get(key)).props;
-                return {
-                    id: key,
-                    ...memberProps
-                };
-            })
-        );
+        // const members = await Promise.all(
+        //     results.map(async ({ key }) => {
+        //         const memberProps = (await collection.get(key)).props;
+        //         return {
+        //             id: key,
+        //             ...memberProps
+        //         };
+        //     })
+        // );
 
-        return members;
+        // return members;
+        return [
+            {
+                id: '1',
+                address: 'Vicente Agüero',
+                avatar: 'ema.png',
+                createdAt: '987654321',
+                email: 'ema@ceballos.com',
+                fullName: 'Ema Ceballos',
+                lastName: 'Ceballos',
+                name: 'Ema',
+                updated: '123456789',
+                phone: '999-555-1234'
+            }
+        ];
     }
 
     async findOne(id: string): Promise<MemberResponse> {
