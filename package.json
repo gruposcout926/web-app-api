@@ -1,7 +1,7 @@
 {
   "name": "gs-926-web-app-api",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "API de la App del GS 926",
   "license": "MIT",
   "scripts": {
