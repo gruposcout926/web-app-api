@@ -1,12 +1,24 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidateInputPipe } from './core/validations';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
-    app.enableCors();
-    await app.listen(process.env.APP_PORT || 3000);
 
-    console.log(`process.env.APP_PORT: ${process.env.APP_PORT}`);
+    app.useGlobalPipes(new ValidateInputPipe({ whitelist: true, forbidNonWhitelisted: true }));
+
+    const config = new DocumentBuilder()
+        .setTitle('GS 926 API')
+        .setDescription('RESTfull API del Grupo Scout 926 Malvinas Argentinas')
+        .setVersion('1.1')
+        .addBearerAuth()
+        .build();
+    app.enableCors();
+
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('swagger', app, document);
+    await app.listen(process.env.APP_PORT || 3001);
 
     console.log(`Application running at ${await app.getUrl()}`, 'Starting App');
 }

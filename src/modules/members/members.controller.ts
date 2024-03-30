@@ -1,7 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { MembersService } from './members.service';
 import { CreateMemberRequest } from 'src/core/contracts/requests/members';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('members')
 @Controller('api/v1/members')
 export class MembersController {
     constructor(private readonly membersService: MembersService) {}
