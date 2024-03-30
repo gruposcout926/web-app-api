@@ -4,4 +4,4 @@ dotenv.config();
 
 import * as CyclicDb from '@cyclic.sh/dynamodb';
 
-export const db: typeof CyclicDb = CyclicDb('shy-plum-caprisCyclicDB');
+export const db: typeof CyclicDb = CyclicDb(process.env.DB_TABLE_NAME);
