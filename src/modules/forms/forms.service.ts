@@ -4,10 +4,10 @@ import { CreateFormRequest } from 'src/core/contracts/requests';
 
 @Injectable()
 export class FormsService {
-    create(formData: CreateFormRequest) {
+    async create(formData: CreateFormRequest): Promise<string> {
         const members = db.collection('members');
         // const member = await members.set(uuidv4(), memberRequest, {});
 
-        return 'This action adds a new form';
+        return 'Form added';
     }
 }

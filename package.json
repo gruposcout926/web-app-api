@@ -7,6 +7,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "prestart:dev": "npm run build",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start": "node dist/main",
@@ -27,6 +28,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.5",
+    "moment": "^2.30.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",
     "uuid": "^9.0.1"
