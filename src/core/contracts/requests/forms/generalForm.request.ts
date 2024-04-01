@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, ValidateNested } from 'class-validator';
-import { BeneficiaryRequest, LegalGuardianRequest } from 'src/core/contracts/requests';
+import { BeneficiaryRequest } from 'src/core/contracts/requests';
 
 export class GeneralFormRequest {
     @ApiProperty({ type: () => BeneficiaryRequest })
@@ -10,9 +10,8 @@ export class GeneralFormRequest {
     @IsNotEmpty()
     beneficiary: BeneficiaryRequest;
 
-    @ApiProperty({ type: () => LegalGuardianRequest })
-    @Type(() => LegalGuardianRequest)
+    @ApiProperty()
     @ValidateNested()
     @IsNotEmpty()
-    legalGuardian: LegalGuardianRequest;
+    legalGuardianId: string;
 }
