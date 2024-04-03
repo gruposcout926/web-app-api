@@ -1,7 +1,24 @@
-export interface SignInUserRequest {
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional } from 'class-validator';
+
+export class SignInUserRequest {
+    @ApiProperty()
+    @IsNotEmpty()
     displayName: string;
-    lastName: string;
+
+    @ApiProperty()
+    @IsOptional()
+    lastName?: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
     email: string;
-    phoneNumber: string;
+
+    @ApiProperty()
+    @IsOptional()
+    phoneNumber?: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
     uid: string;
 }
