@@ -1,14 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { SignInUserRequest } from 'src/core/contracts';
 import { UsersService } from 'src/modules/users/users.service';
 import { CustomLogger, throwCustomError } from 'src/core/utils';
+import { ExternalAuthService } from 'src/modules/externalAuth';
+import { SECURITY_ROLE } from 'src/core/enums';
 
 @Injectable()
 export class AuthService {
-    constructor(private usersService: UsersService, private readonly logger: CustomLogger) {}
+    constructor(
+        @Inject('ExternalAuthService')
+        private readonly externalAuthService: ExternalAuthService,
+        private usersService: UsersService,
+        private readonly logger: CustomLogger
+    ) {}
 
-    //TODO: save this user to the database, here we have to return all the necessary to fill the dashboard.
     async signIn(userRequest: SignInUserRequest): Promise<any> {
         try {
             const dbUser = await this.usersService.findOneByEmail(userRequest.email);
@@ -27,7 +33,12 @@ export class AuthService {
                     externalUserId: userRequest.uid
                 });
 
-                this.logger.log(`Usuario creado: ${userRequest.email}`);
+                await this.externalAuthService.updateUserRole({
+                    externalUserId: userRequest.uid,
+                    roles: [SECURITY_ROLE.Tutor]
+                });
+
+                this.logger.log(`Usuario creado: ${userRequest.email} con rol:`);
             }
         } catch (error) {
             throwCustomError(error, `${AuthService.name} - signIn`);

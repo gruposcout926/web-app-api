@@ -5,10 +5,11 @@ import { FormsModule } from 'src/modules/forms/forms.module';
 import { CustomLogger } from 'src/core/utils';
 import { LoggerMiddleware, RequestContextMiddleware } from 'src/core/middlewares';
 import { UsersModule } from 'src/modules/users/users.module';
+import { FirebaseService } from 'src/modules/externalAuth';
 
 @Module({
     imports: [MembersModule, AuthModule, FormsModule, UsersModule],
-    providers: [CustomLogger]
+    providers: [CustomLogger, FirebaseService]
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
