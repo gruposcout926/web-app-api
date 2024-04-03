@@ -1,10 +1,13 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import InitiateFirebaseApp from 'src/modules/externalAuth/utils/initiateFirebaseApp';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidateInputPipe } from './core/validations';
 
 async function bootstrap() {
+    InitiateFirebaseApp();
+
     const app = await NestFactory.create(AppModule);
 
     app.setGlobalPrefix('api/v1');
