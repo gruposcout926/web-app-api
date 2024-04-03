@@ -5,7 +5,7 @@ import { CreateFormRequest } from 'src/core/contracts/requests';
 import { CustomErrorFilter } from 'src/core/filters';
 
 @ApiTags('forms')
-@Controller('api/v1/forms')
+@Controller('forms')
 @UseFilters(CustomErrorFilter)
 export class FormsController {
     constructor(private readonly formsService: FormsService) {}

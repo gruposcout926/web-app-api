@@ -1,10 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { MembersService } from './members.service';
 import { CreateMemberRequest } from 'src/core/contracts/requests/members';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('members')
-@Controller('api/v1/members')
+@Controller('members')
 export class MembersController {
     constructor(private readonly membersService: MembersService) {}
 
@@ -21,15 +21,5 @@ export class MembersController {
     @Get(':id')
     async findOne(@Param('id') id: string) {
         return await this.membersService.findOne(id);
-    }
-
-    @Patch(':id')
-    async update(@Param('id') id: string, @Body() updateMemberDto: any) {
-        return this.membersService.update(+id, updateMemberDto);
-    }
-
-    @Delete(':id')
-    async remove(@Param('id') id: string) {
-        return this.membersService.remove(+id);
     }
 }

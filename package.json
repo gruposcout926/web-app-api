@@ -5,7 +5,8 @@
   "description": "API de la App del GS 926",
   "license": "MIT",
   "scripts": {
-    "build": "nest build",
+    "build": "yarn clean && nest build",
+    "clean": "npx rimraf dist temp",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "predev": "npm run build",
     "dev": "nest start --watch",
