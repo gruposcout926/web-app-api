@@ -38,7 +38,7 @@ export class CreateUserRequest {
 
     @ApiProperty()
     @IsNotEmpty()
-    nationallity: string;
+    nationality: string;
 
     @ApiProperty()
     @IsNotEmpty()

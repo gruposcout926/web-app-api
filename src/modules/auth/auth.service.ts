@@ -29,7 +29,7 @@ export class AuthService {
                     phone: userRequest.phoneNumber,
                     email: userRequest.email,
                     address: '',
-                    nationallity: '',
+                    nationality: '',
                     externalUserId: userRequest.uid
                 });
 

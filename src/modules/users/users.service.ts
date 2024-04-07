@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserRequest } from 'src/core/contracts/requests';
 import { db } from 'src/core/database/database.config';
+import { EditUserDto } from 'src/core/dtos';
 import { UserEntity } from 'src/core/entities';
 import { DBTables } from 'src/core/enums';
 import { throwCustomError } from 'src/core/utils';
@@ -27,6 +28,20 @@ export class UsersService {
             return users.results[0].props;
         } catch (error) {
             throwCustomError(error, `${UsersService.name} - findOneByEmail`);
+        }
+    }
+
+    async editUser(editUserDto: EditUserDto): Promise<void> {
+        try {
+            const user = await this.findOneByEmail(editUserDto.email);
+
+            if (!user) {
+                throwCustomError(new NotFoundException(), `${UsersService.name} - editUser`);
+            }
+
+            db.collection(DBTables.Users).set(user.id, editUserDto, {});
+        } catch (error) {
+            throwCustomError(error, `${UsersService.name} - editUser`);
         }
     }
 
