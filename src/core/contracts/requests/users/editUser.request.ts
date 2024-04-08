@@ -31,8 +31,4 @@ export class EditUserRequest {
     @ApiProperty()
     @IsNotEmpty()
     phone: string;
-
-    @ApiProperty()
-    @IsNotEmpty()
-    role: string;
 }
