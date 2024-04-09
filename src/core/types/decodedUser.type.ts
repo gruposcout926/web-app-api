@@ -1,10 +1,7 @@
-// import { UserEntity } from 'src/core/entities';
-// import { FirebaseUser } from 'src/core/types';
+import { UserEntity } from 'src/core/entities';
+import { FirebaseUser } from 'src/core/types';
 
-// export type DecodedUser = FirebaseUser & {
-//     applicationUser: UserEntity;
-// };
-
-export type DecodedUser = {
-    firstName: string;
+export type DecodedUser = FirebaseUser & {
+    applicationUser: UserEntity;
+    roles: string[];
 };

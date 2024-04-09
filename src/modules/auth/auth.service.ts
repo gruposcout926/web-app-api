@@ -17,7 +17,7 @@ export class AuthService {
 
     async signIn(userRequest: SignInUserRequest): Promise<any> {
         try {
-            const dbUser = await this.usersService.findOneByEmail(userRequest.email);
+            const dbUser = await this.usersService.findOneByFilter({ email: userRequest.email });
 
             if (!dbUser) {
                 await this.usersService.create({
@@ -38,7 +38,9 @@ export class AuthService {
                     roles: [SECURITY_ROLE.Tutor]
                 });
 
-                this.logger.log(`Usuario creado: ${userRequest.email} con rol:`);
+                this.logger.log(
+                    `Usuario creado: ${userRequest.email} con rol: ${SECURITY_ROLE.Tutor}`
+                );
             }
         } catch (error) {
             throwCustomError(error, `${AuthService.name} - signIn`);

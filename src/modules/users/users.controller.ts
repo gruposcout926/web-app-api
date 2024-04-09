@@ -1,9 +1,12 @@
-import { Body, Controller, Get, Put, UseFilters } from '@nestjs/common';
+import { Body, Controller, Get, Put, Request, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Request as ExpressRequest } from 'express';
 import { EditUserRequest, GetUserResponse } from 'src/core/contracts';
 import { CustomErrorFilter } from 'src/core/filters';
+import { FirebaseAuthGuard } from 'src/core/guards';
 import { UsersService } from 'src/modules/users/users.service';
 
+@UseGuards(FirebaseAuthGuard)
 @UseFilters(CustomErrorFilter)
 @ApiTags('users')
 @Controller('users')
@@ -11,8 +14,12 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Get('me')
-    async findAll(): Promise<GetUserResponse> {
-        const userEntity = await this.usersService.findOneByEmail('ema.ceballos@gmail.com');
+    async findCurrent(@Request() req: ExpressRequest): Promise<GetUserResponse> {
+        const { email } = req.user;
+
+        const userEntity = await this.usersService.findOneByFilter({
+            email
+        });
 
         return {
             id: userEntity.id,
@@ -24,17 +31,17 @@ export class UsersController {
             name: userEntity.name,
             nationality: userEntity.nationality,
             phone: userEntity.phone,
-
-            // TODO: this role will be taken from the logged user
-            role: 'father'
+            roles: req.user.roles
         };
     }
 
     @Put('me')
-    async editUser(@Body() userRequest: EditUserRequest) {
+    async editUser(@Body() userRequest: EditUserRequest, @Request() req: ExpressRequest) {
+        const { email } = req.user;
+
         return await this.usersService.editUser({
             ...userRequest,
-            email: 'ema.ceballos@gmail.com'
+            email
         });
     }
 }

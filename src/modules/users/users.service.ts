@@ -15,14 +15,15 @@ export class UsersService {
         return user.key;
     }
 
-    async findOneByEmail(email: string): Promise<UserEntity | null> {
+    async findOneByFilter(queryFilter: any): Promise<UserEntity | null> {
         try {
-            const users = await db.collection(DBTables.Users).filter({
-                email
-            });
+            const users = await db.collection(DBTables.Users).filter(queryFilter);
 
             if (!users?.results || users?.results.length === 0) {
-                return null;
+                throwCustomError(
+                    new NotFoundException(),
+                    `${UsersService.name} - findOneByExternalId`
+                );
             }
 
             return users.results[0].props;
@@ -31,13 +32,19 @@ export class UsersService {
         }
     }
 
+    public async findOneByExternalId(externalUserId: string): Promise<UserEntity> {
+        try {
+            const user = await this.findOneByFilter({ externalUserId });
+
+            return user;
+        } catch (error) {
+            throwCustomError(error, `${UsersService.name} - findOneByExternalId`);
+        }
+    }
+
     async editUser(editUserDto: EditUserDto): Promise<void> {
         try {
-            const user = await this.findOneByEmail(editUserDto.email);
-
-            if (!user) {
-                throwCustomError(new NotFoundException(), `${UsersService.name} - editUser`);
-            }
+            const user = await this.findOneByFilter({ email: editUserDto.email });
 
             db.collection(DBTables.Users).set(user.id, editUserDto, {});
         } catch (error) {
