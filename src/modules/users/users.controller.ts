@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Put, Request, UseFilters, UseGuards } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Request as ExpressRequest } from 'express';
 import { EditUserRequest, GetUserResponse } from 'src/core/contracts';
 import { CustomErrorFilter } from 'src/core/filters';
@@ -13,6 +13,7 @@ import { UsersService } from 'src/modules/users/users.service';
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
+    @ApiOkResponse({ type: GetUserResponse })
     @Get('me')
     async findCurrent(@Request() req: ExpressRequest): Promise<GetUserResponse> {
         const { email } = req.user;
