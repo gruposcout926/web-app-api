@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserRequest } from 'src/core/contracts/requests';
 import { db } from 'src/core/database/database.config';
+import { EditUserDto } from 'src/core/dtos';
 import { UserEntity } from 'src/core/entities';
 import { DBTables } from 'src/core/enums';
 import { throwCustomError } from 'src/core/utils';
@@ -14,19 +15,40 @@ export class UsersService {
         return user.key;
     }
 
-    async findOneByEmail(email: string): Promise<UserEntity | null> {
+    async findOneByFilter(queryFilter: any): Promise<UserEntity | null> {
         try {
-            const users = await db.collection(DBTables.Users).filter({
-                email
-            });
+            const users = await db.collection(DBTables.Users).filter(queryFilter);
 
             if (!users?.results || users?.results.length === 0) {
-                return null;
+                throwCustomError(
+                    new NotFoundException(),
+                    `${UsersService.name} - findOneByExternalId`
+                );
             }
 
             return users.results[0].props;
         } catch (error) {
             throwCustomError(error, `${UsersService.name} - findOneByEmail`);
+        }
+    }
+
+    public async findOneByExternalId(externalUserId: string): Promise<UserEntity> {
+        try {
+            const user = await this.findOneByFilter({ externalUserId });
+
+            return user;
+        } catch (error) {
+            throwCustomError(error, `${UsersService.name} - findOneByExternalId`);
+        }
+    }
+
+    async editUser(editUserDto: EditUserDto): Promise<void> {
+        try {
+            const user = await this.findOneByFilter({ email: editUserDto.email });
+
+            db.collection(DBTables.Users).set(user.id, editUserDto, {});
+        } catch (error) {
+            throwCustomError(error, `${UsersService.name} - editUser`);
         }
     }
 

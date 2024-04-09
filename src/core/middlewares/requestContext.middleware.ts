@@ -8,11 +8,7 @@ import { RequestStore } from 'src/core/interfaces';
 @Injectable()
 export class RequestContextMiddleware implements NestMiddleware {
     use(req: Request, _: Response, next: NextFunction) {
-        //TODO: is this instantiation necessary?
-
-        const user: DecodedUser = {
-            firstName: ''
-        };
+        const user: DecodedUser = null;
 
         const store: RequestStore = {
             requestId: (req.headers['x-request-id'] as string) || uuidv4(),
