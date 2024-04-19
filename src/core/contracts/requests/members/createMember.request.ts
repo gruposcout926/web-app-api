@@ -5,7 +5,7 @@ import { GuardianType } from 'src/core/enums';
 export class CreateMemberRequest {
     @ApiProperty()
     @IsNotEmpty()
-    name: string;
+    firstName: string;
 
     @ApiProperty()
     @IsNotEmpty()
@@ -14,7 +14,7 @@ export class CreateMemberRequest {
     @ApiProperty()
     @IsNumber()
     @IsNotEmpty()
-    identificationNumber: number;
+    identificationNumber: string;
 
     @ApiProperty()
     @IsNumber()

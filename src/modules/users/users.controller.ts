@@ -29,7 +29,7 @@ export class UsersController {
             email: userEntity.email,
             identificationNumber: userEntity.identificationNumber,
             lastName: userEntity.lastName,
-            name: userEntity.name,
+            firstName: userEntity.firstName,
             nationality: userEntity.nationality,
             phone: userEntity.phone,
             roles: req.user.roles

@@ -11,7 +11,7 @@ export class UserEntity {
     dateOfBirth: number;
 
     @ApiProperty()
-    identificationNumber: number;
+    identificationNumber: string;
 
     @ApiProperty({ type: String, format: 'email' })
     email: string;
@@ -20,7 +20,7 @@ export class UserEntity {
     externalUserId?: string | null;
 
     @ApiProperty()
-    name: string;
+    firstName: string;
 
     @ApiProperty()
     nationality: string;

@@ -52,7 +52,7 @@ export class UsersService {
         }
     }
 
-    async delete(id: string): Promise<void> {
+    private async delete(id: string): Promise<void> {
         await db.collection(DBTables.Users).delete(id, null, null);
     }
 }
