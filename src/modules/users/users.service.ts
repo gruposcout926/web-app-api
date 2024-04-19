@@ -20,10 +20,7 @@ export class UsersService {
             const users = await db.collection(DBTables.Users).filter(queryFilter);
 
             if (!users?.results || users?.results.length === 0) {
-                throwCustomError(
-                    new NotFoundException(),
-                    `${UsersService.name} - findOneByExternalId`
-                );
+                return null;
             }
 
             return users.results[0].props;
@@ -52,7 +49,7 @@ export class UsersService {
         }
     }
 
-    private async delete(id: string): Promise<void> {
+    async delete(id: string): Promise<void> {
         await db.collection(DBTables.Users).delete(id, null, null);
     }
 }
