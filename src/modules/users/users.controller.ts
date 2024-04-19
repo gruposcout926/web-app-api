@@ -1,9 +1,19 @@
-import { Body, Controller, Get, Put, Request, UseFilters, UseGuards } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    NotFoundException,
+    Put,
+    Request,
+    UseFilters,
+    UseGuards
+} from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Request as ExpressRequest } from 'express';
 import { EditUserRequest, GetUserResponse } from 'src/core/contracts';
 import { CustomErrorFilter } from 'src/core/filters';
 import { FirebaseAuthGuard } from 'src/core/guards';
+import { throwCustomError } from 'src/core/utils';
 import { UsersService } from 'src/modules/users/users.service';
 
 @UseGuards(FirebaseAuthGuard)
@@ -21,6 +31,10 @@ export class UsersController {
         const userEntity = await this.usersService.findOneByFilter({
             email
         });
+
+        if (!userEntity) {
+            throwCustomError(new NotFoundException(), `${UsersController.name} - findCurrent`);
+        }
 
         return {
             id: userEntity.id,

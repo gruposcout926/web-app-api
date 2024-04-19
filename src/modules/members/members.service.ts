@@ -29,12 +29,10 @@ export class MembersService {
             await this.findOne(updatedMember.id, updatedMember.userId);
 
             await this.delete(updatedMember.id);
-            // members.set(updatedMember.id, updatedMember, {});
+            members.set(updatedMember.id, updatedMember, {});
         } catch (error) {
             throwCustomError(error, `${MembersService.name} - update`);
         }
-
-        console.log('🚀 ~ MembersService ~ update ~ updatedMember.id:', updatedMember.id);
     }
 
     /**
