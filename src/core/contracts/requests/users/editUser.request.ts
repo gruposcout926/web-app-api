@@ -14,11 +14,11 @@ export class EditUserRequest {
     @ApiProperty()
     @IsNotEmpty()
     @IsNumber()
-    identificationNumber: number;
+    identificationNumber: string;
 
     @ApiProperty()
     @IsNotEmpty()
-    name: string;
+    firstName: string;
 
     @ApiProperty()
     @IsNotEmpty()

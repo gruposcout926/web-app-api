@@ -23,7 +23,7 @@ export class AuthService {
                 await this.usersService.create({
                     id: uuidv4(),
                     name: userRequest.displayName,
-                    identificationNumber: 0,
+                    identificationNumber: '',
                     dateOfBirth: 0,
                     lastName: userRequest.lastName,
                     phone: userRequest.phoneNumber,

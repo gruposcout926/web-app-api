@@ -15,9 +15,8 @@ export class CreateUserRequest {
     lastName: string;
 
     @ApiProperty()
-    @IsNumber()
     @IsNotEmpty()
-    identificationNumber: number;
+    identificationNumber: string;
 
     @ApiProperty()
     @IsNumber()

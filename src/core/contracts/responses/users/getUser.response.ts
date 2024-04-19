@@ -1,5 +1,7 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from 'src/core/entities';
 
-export type GetUserResponse = UserEntity & {
+export class GetUserResponse extends UserEntity {
+    @ApiProperty()
     roles: string[];
-};
+}

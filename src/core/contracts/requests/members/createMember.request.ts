@@ -1,10 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import { GuardianType } from 'src/core/enums';
 
 export class CreateMemberRequest {
     @ApiProperty()
     @IsNotEmpty()
-    name: string;
+    firstName: string;
 
     @ApiProperty()
     @IsNotEmpty()
@@ -13,7 +14,7 @@ export class CreateMemberRequest {
     @ApiProperty()
     @IsNumber()
     @IsNotEmpty()
-    identificationNumber: number;
+    identificationNumber: string;
 
     @ApiProperty()
     @IsNumber()
@@ -27,4 +28,16 @@ export class CreateMemberRequest {
     @ApiProperty()
     @IsNotEmpty()
     nationality: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    emergencyPhone: string;
+
+    @ApiProperty({ enum: GuardianType, example: Object.values(GuardianType) })
+    @IsNotEmpty()
+    @IsEnum(GuardianType, {
+        each: true,
+        message: `Tutor inválido. Valores disponibles: ${Object.values(GuardianType)}`
+    })
+    tutorCharacter: GuardianType;
 }

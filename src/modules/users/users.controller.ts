@@ -1,9 +1,19 @@
-import { Body, Controller, Get, Put, Request, UseFilters, UseGuards } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+    Body,
+    Controller,
+    Get,
+    NotFoundException,
+    Put,
+    Request,
+    UseFilters,
+    UseGuards
+} from '@nestjs/common';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Request as ExpressRequest } from 'express';
 import { EditUserRequest, GetUserResponse } from 'src/core/contracts';
 import { CustomErrorFilter } from 'src/core/filters';
 import { FirebaseAuthGuard } from 'src/core/guards';
+import { throwCustomError } from 'src/core/utils';
 import { UsersService } from 'src/modules/users/users.service';
 
 @UseGuards(FirebaseAuthGuard)
@@ -13,6 +23,7 @@ import { UsersService } from 'src/modules/users/users.service';
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
+    @ApiOkResponse({ type: GetUserResponse })
     @Get('me')
     async findCurrent(@Request() req: ExpressRequest): Promise<GetUserResponse> {
         const { email } = req.user;
@@ -21,6 +32,10 @@ export class UsersController {
             email
         });
 
+        if (!userEntity) {
+            throwCustomError(new NotFoundException(), `${UsersController.name} - findCurrent`);
+        }
+
         return {
             id: userEntity.id,
             address: userEntity.address,
@@ -28,7 +43,7 @@ export class UsersController {
             email: userEntity.email,
             identificationNumber: userEntity.identificationNumber,
             lastName: userEntity.lastName,
-            name: userEntity.name,
+            firstName: userEntity.firstName,
             nationality: userEntity.nationality,
             phone: userEntity.phone,
             roles: req.user.roles

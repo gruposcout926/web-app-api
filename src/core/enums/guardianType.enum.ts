@@ -1,6 +1,6 @@
 export enum GuardianType {
-    Mother = 'madre',
-    Father = 'padre',
+    Mother = 'mother',
+    Father = 'father',
     Tutor = 'tutor',
     Guardian = 'guardian'
 }

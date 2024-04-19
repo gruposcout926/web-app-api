@@ -1,15 +1,14 @@
 import { GuardianType } from 'src/core/enums';
 
-export interface MemberResponse {
-    id: string;
+export interface CreateMemberDto {
     address: string;
-    createdAt: string;
+    createdAt: number;
     dateOfBirth: number;
     emergencyPhone: string;
-    fullName: string;
+    firstName: string;
     identificationNumber: string;
     lastName: string;
-    name: string;
     nationality: string;
     tutorCharacter: GuardianType;
+    userId: string;
 }
