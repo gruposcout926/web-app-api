@@ -50,8 +50,8 @@ export class MembersService {
                     const memberProps = (await collection.get(key)).props;
 
                     return {
-                        id: key,
-                        ...memberProps
+                        ...memberProps,
+                        id: key
                     };
                 })
             );
@@ -77,8 +77,6 @@ export class MembersService {
     }
 
     private async delete(id: string): Promise<void> {
-        const deleted = await db.collection(DBTables.Members).delete(id, null, null);
-
-        console.log('🚀 ~ MembersService ~ delete ~ deleted:', deleted);
+        await db.collection(DBTables.Members).delete(id, null, null);
     }
 }

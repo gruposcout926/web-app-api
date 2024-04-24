@@ -1,6 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, ValidateNested } from 'class-validator';
 import { GuardianType } from 'src/core/enums';
+
+export class MemberAuthorizations {
+    @ApiProperty()
+    @IsBoolean()
+    annualAuthorizationForNearbyDeparturesRequest: boolean;
+
+    @ApiProperty()
+    @IsBoolean()
+    authorizationForImageUseUnder18: boolean;
+}
 
 export class CreateMemberRequest {
     @ApiProperty()
@@ -40,4 +51,9 @@ export class CreateMemberRequest {
         message: `Tutor inválido. Valores disponibles: ${Object.values(GuardianType)}`
     })
     tutorCharacter: GuardianType;
+
+    @ApiProperty({ type: () => MemberAuthorizations })
+    @Type(() => MemberAuthorizations)
+    @ValidateNested()
+    authorizations: MemberAuthorizations;
 }
